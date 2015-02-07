@@ -20,10 +20,8 @@ class pulp::admin (
     $wrap_terminal              = false,
     $wrap_width                 = 80,
 ) inherits pulp::params {
-    exec { 'yum install pulp-admin':
-        command => '/usr/bin/yum -y groupinstall pulp-admin',
-        unless  => '/usr/bin/yum grouplist "Pulp Admin" | /bin/grep -i "^Installed Groups"',
-        timeout => 600,
+    package { ['pulp-admin-client','pulp-puppet-admin-extensions','pulp-rpm-admin-extensions']:
+      ensure => present,
     } ->
     file { '/etc/pulp/admin/admin.conf':
         ensure  => present,

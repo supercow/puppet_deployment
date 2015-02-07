@@ -1,12 +1,17 @@
 # This is a private class that should not be called directly.
 # Use pulp::consumer instead.
-
 class pulp::consumer::install {
-    # Not elegant, but Puppet doesn't support yum groups
-    exec {
-        'yum install pulp-consumer':
-        command => '/usr/bin/yum -y groupinstall "Pulp Consumer"',
-        unless  => '/usr/bin/yum grouplist "Pulp Consumer" | /bin/grep -i "^Installed Groups"',
-        timeout => 600
-    }
+  $pulp_consumer_packages = [
+    'pulp-agent',
+    'pulp-puppet-consumer-extensions',
+    'pulp-puppet-handlers',
+    'pulp-rpm-consumer-extensions',
+    'pulp-rpm-handlers',
+    'pulp-rpm-yumplugins',
+  ]
+
+  package { $pulp_consumer_packages:
+    ensure => present,
+  }
+
 }

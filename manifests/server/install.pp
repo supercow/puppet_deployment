@@ -2,11 +2,10 @@
 # Use pulp::server instead.
 
 class pulp::server::install {
-    # Not elegant, but Puppet doesn't support yum groups
-    exec { 'yum install pulp-server':
-      command => '/usr/bin/yum -y groupinstall "Pulp Server"',
-      unless  => '/usr/bin/yum grouplist "Pulp Server" | /bin/grep -i "^Installed Groups"',
-      timeout => 600
+
+    $pulp_server_pkgs = ['pulp-server','pulp-puppet-plugins','pulp-rpm-plugins','pulp-selinux']
+    package { $pulp_server_pkgs:
+      ensure => present,
     }
 
     if pulp::server::node_parent {
@@ -15,5 +14,5 @@ class pulp::server::install {
         }
     }
 
-    Exec['yum install pulp-server'] -> Package['pulp-nodes-parent']
+    Package[$pulp_server_pkgs] -> Package['pulp-nodes-parent']
 }
