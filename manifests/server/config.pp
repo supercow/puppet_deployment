@@ -47,10 +47,10 @@ class pulp::server::config {
     }
 
     # Configure Apache
-    augeas { 'wsgi-processes':
-        changes => "set /files/etc/httpd/conf.d/pulp.conf/*[self::directive='WSGIDaemonProcess']/arg[4] processes=${pulp::server::wsgi_processes}",
-    }
-    augeas { 'wsgi-threads':
-        changes => "set /files/etc/httpd/conf.d/pulp.conf/*[self::directive='WSGIDaemonProcess']/arg[6] threads=${pulp::server::wsgi_threads}",
-    }
+    #augeas { 'wsgi-processes':
+    #    changes => "set /files/etc/httpd/conf.d/pulp.conf/*[self::directive='WSGIDaemonProcess']/arg[4] processes=${pulp::server::wsgi_processes}",
+    #}
+    #augeas { 'wsgi-threads':
+    #    changes => "set /files/etc/httpd/conf.d/pulp.conf/*[self::directive='WSGIDaemonProcess']/arg[6] threads=${pulp::server::wsgi_threads}",
+    #}
 }
