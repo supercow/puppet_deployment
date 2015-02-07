@@ -152,10 +152,8 @@ module PuppetPulp
       end
 
       repos.inject({}) do |memo,x|
-        Puppet.notice memo
-        Puppet.notice x
         memo.merge!({x.id => x})
-      end
+      end unless repos == {} or repos == [] or repos == [''] or repos == nil
     end
 
     def login
