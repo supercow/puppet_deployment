@@ -36,6 +36,7 @@ module PuppetPulp
         cmd << " " + params[:notes].keys.sort.map { |k| "--note \"#{k}=#{params[:notes][k]}\"" }.join(' ')
       end
 
+      Puppet.debug "Running #{cmd} for #{repo_type} repo #{repo_id}"
       output = `#{cmd}`
       raise "Could not create repo: #{output}" unless output =~ /Successfully created repository \[#{repo_id}\]/
 
@@ -49,7 +50,9 @@ module PuppetPulp
 
     def destroy(repo_id)
       login
-      output = `pulp-admin "#{repo_type}" repo delete --repo-id="#{repo_id}"`
+
+      cmd = "pulp-admin #{repo_type} repo delete --repo-id=#{repo_id}"
+      Puppet.debug "Running #{cmd} to destroy #{repo_id}"
       raise "Could not remove repo: #{output}" unless output =~ /Repository \[#{repo_id}\] successfully deleted/
     end
 
@@ -160,7 +163,9 @@ module PuppetPulp
 
     def login
       unless @logged_in
-        output =  `pulp-admin login -u #{@username} -p #{@password}`
+        cmd = "pulp-admin login -u #{@username} -p #{@password}"
+        Puppet.debug "Running #{cmd} to log in for pulp management"
+        output =  `#{cmd}`
         output =~ /Successfully logged in/ || raise("Could not login: #{output}")
       end
       @logged_in = true
