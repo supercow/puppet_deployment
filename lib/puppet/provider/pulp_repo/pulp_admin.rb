@@ -25,7 +25,9 @@ Puppet::Type::type(:pulp_repo).provide(:pulp_admin) do
   end
 
   def exists?
-    pulp_admin.repos( @resource[:repo_type] ).has_key? @resource[:id]
+    repos = pulp_admin.repos(@resource[:repo_type])
+    return false if repos.nil?
+    repos.has_key? @resource[:id]
   end
 
   [ :display_name,
