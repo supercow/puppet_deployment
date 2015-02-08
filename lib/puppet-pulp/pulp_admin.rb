@@ -151,9 +151,11 @@ module PuppetPulp
         result
       end
 
-      repos.inject({}) do |memo,x|
-        memo.merge!({x.id => x})
-      end unless repos == [] or repos[0] =~ /^\s*$/
+      if ! (repos == [] or repos[0] =~ /^\s*$/)
+        repos.inject({}) do |memo,x|
+          memo.merge!({x.id => x})
+        end
+      end
     end
 
     def login
