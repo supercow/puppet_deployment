@@ -152,7 +152,7 @@ module PuppetPulp
       end
 
       repos.inject({}) do |memo,x|
-        if ! x.is_nil?
+        if ! x.nil?
           memo.merge!({x.id => x})
         end
       end
